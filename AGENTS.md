@@ -50,8 +50,10 @@ ENGINEERING RULES
   starts. No real credentials, no real malware, no external network.
 
 WORKFLOW FOR EVERY TASK
-1. Restate the task, list assumptions, and list the files you will create/modify.
-   WAIT for my approval before writing code.
+1. Implementation Plan & Risk Assessment:
+   - Restate the task, list assumptions, assess risks, and list the files you will create/modify.
+   - For RISKY tasks (security boundaries, policy, sandboxing, process execution, secrets, network scopes, architectural shifts, destructive actions, or high-blast-radius edits): Present the implementation plan and ask: "Do you want to proceed with this implementation plan?" WAIT for user approval before writing code.
+   - For LOW-RISK / NO-RISK tasks (non-breaking documentation, formatting, self-contained safe additions with zero security or isolation impact): Present the implementation plan and proceed directly without blocking on approval.
 2. Write failing tests first (deny paths first).
 3. Implement the minimum that passes. Keep changes small and reviewable.
 4. Run format, lint, type checks and tests; show me the output.
