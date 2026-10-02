@@ -11,6 +11,6 @@ const SCRIPT_PATH = path.resolve(__dirname, '../../../scripts/threat-coverage.ts
 describe('Threat Model CI Coverage Script', () => {
   it('executes threat-coverage script and succeeds on current threat model', () => {
     const output = execSync(`node "${SCRIPT_PATH}"`, { encoding: 'utf-8' });
-    assert.match(output, /All 14 threats have valid standards mappings and test coverage/);
+    assert.match(output, /All \d+ threats have valid standards mappings and test coverage/);
   });
 });

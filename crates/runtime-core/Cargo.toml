@@ -16,7 +16,12 @@ rand = "0.8"
 thiserror = "1"
 sysinfo = "0.31"
 valutx-process-supervisor = { path = "../process-supervisor" }
+valutx-audit = { path = "../audit" }
 
 [[bin]]
 name = "valutx"
 path = "src/bin/valutx.rs"
+
+[dev-dependencies]
+tempfile = "3"
+
