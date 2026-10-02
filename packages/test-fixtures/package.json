@@ -7,6 +7,6 @@
   "scripts": {
     "build": "tsc -b",
     "lint": "eslint src",
-    "test": "node --test tests/attack-harness.test.ts"
+    "test": "node --test tests/attack-harness.test.ts tests/benchmark-runner.test.ts"
   }
 }

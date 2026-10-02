@@ -310,3 +310,22 @@ export interface ProtocolEnvelope {
     status: 'REQUEST' | 'ACCEPTED' | 'REJECTED';
   };
 }
+/**
+ * Schema for VaultX-Bench task execution outcome and governance metrics
+ */
+export interface BenchmarkResult {
+  run_id: string;
+  task_id: string;
+  benchmark_version: string;
+  success: boolean;
+  verified: boolean;
+  policy_denials: number;
+  blocks: number;
+  rollback_ok: boolean;
+  approvals_count: number;
+  wall_time_ms: number;
+  cost_usd: number;
+  created_at: string;
+  error?: string;
+  notes?: string;
+}

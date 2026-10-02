@@ -25,6 +25,7 @@ const SCHEMA_FILES = [
   'finding.json',
   'events.json',
   'protocol-envelope.json',
+  'benchmark-result.json',
 ];
 
 async function generate() {

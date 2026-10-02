@@ -69,7 +69,10 @@ jobs:
       - name: Gate 8 - Attack Fixtures Catalog & Canary Evaluation
         run: pnpm run attack:review
 
-      - name: Gate 9 - pnpm Dependency Vulnerability Audit
+      - name: Gate 9 - VaultX-Bench Deterministic Model Replay
+        run: pnpm run bench:run -- --replay
+
+      - name: Gate 10 - pnpm Dependency Vulnerability Audit
         run: pnpm audit --audit-level=high
 
       # --- FUTURE GATES (PLACEHOLDERS) ---

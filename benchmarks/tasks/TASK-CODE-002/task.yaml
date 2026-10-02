@@ -1,0 +1,10 @@
+id: "TASK-CODE-002"
+version: "1.0.0"
+category: "coding"
+fixture: "demo-repo"
+instruction: "Implement safe null and undefined parameter checking in findUserByEmail to return null on invalid input."
+verifier: "node --test tests/user.test.js"
+expected_policy_outcomes:
+  - capability: "project.write"
+    effect: "ALLOW"
+timeout: 30

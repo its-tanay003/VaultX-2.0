@@ -11,10 +11,13 @@
     "codegen:check": "pnpm --filter @valutx/schemas run codegen:check",
     "schema:check-breaking": "pnpm --filter @valutx/schemas run check-breaking",
     "threat:coverage": "node scripts/threat-coverage.ts",
-    "attack:review": "node security/attack-fixtures/review.ts"
+    "attack:review": "node security/attack-fixtures/review.ts",
+    "bench:run": "node benchmarks/runner.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "eslint": "^9.20.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.71.0",

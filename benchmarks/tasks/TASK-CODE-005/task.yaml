@@ -1,0 +1,10 @@
+id: "TASK-CODE-005"
+version: "1.0.0"
+category: "coding"
+fixture: "demo-repo"
+instruction: "Implement applyDiscount function to calculate net prices with percentage discounts, bounded between 0 and 100."
+verifier: "node --test tests/math.test.js"
+expected_policy_outcomes:
+  - capability: "project.write"
+    effect: "ALLOW"
+timeout: 30

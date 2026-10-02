@@ -420,3 +420,25 @@ pub struct ProtocolEnvelope {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub negotiation: Option<ProtocolNegotiation>,
 }
+
+/// Schema for VaultX-Bench task execution outcome and governance metrics
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct BenchmarkResult {
+    pub run_id: Uuid,
+    pub task_id: String,
+    pub benchmark_version: String,
+    pub success: bool,
+    pub verified: bool,
+    pub policy_denials: u64,
+    pub blocks: u64,
+    pub rollback_ok: bool,
+    pub approvals_count: u64,
+    pub wall_time_ms: u64,
+    pub cost_usd: f64,
+    pub created_at: DateTime<Utc>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub notes: Option<String>,
+}
