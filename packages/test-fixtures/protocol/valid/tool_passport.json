@@ -1,0 +1,16 @@
+{
+  "id": "11111111-1111-1111-1111-111111111111",
+  "name": "nmap-scanner",
+  "version": "7.94.0",
+  "description": "Network exploration tool and security / port scanner",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "capabilities": [
+    "cyber.scan",
+    "network.lab"
+  ],
+  "runtime_type": "container",
+  "sandbox_profile": "kali_lab_restricted",
+  "memory_limit_mb": 512,
+  "cpu_quota_pct": 50,
+  "timeout_seconds": 300
+}

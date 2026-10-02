@@ -7,7 +7,8 @@ export default tseslint.config(
       "**/target/**",
       "**/node_modules/**",
       "**/*.d.ts",
-      "**/coverage/**"
+      "**/coverage/**",
+      "**/generated/**"
     ]
   },
   ...tseslint.configs.recommended,

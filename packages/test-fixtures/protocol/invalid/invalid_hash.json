@@ -1,0 +1,10 @@
+{
+  "id": "a0000000-0000-0000-0000-000000000001",
+  "action_id": "b0000000-0000-0000-0000-000000000002",
+  "action_hash": "not-a-valid-sha256-hash",
+  "decision": "APPROVED",
+  "approver_id": "alice-admin",
+  "approver_role": "Admin",
+  "timestamp": "2026-10-02T16:00:00Z",
+  "signature": "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/audit-event.json",
+  "title": "AuditEvent",
+  "description": "Server-side hash-chained tamper-evident audit log entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "sequence",
+    "event_type",
+    "timestamp",
+    "actor",
+    "payload",
+    "prev_hash",
+    "hash",
+    "signature"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "event_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50
+        }
+      }
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "prev_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 512,
+      "pattern": "^[a-f0-9]+$"
+    }
+  }
+}

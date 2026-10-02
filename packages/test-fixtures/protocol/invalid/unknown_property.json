@@ -1,0 +1,12 @@
+{
+  "id": "a0000000-0000-0000-0000-000000000001",
+  "name": "Local Cyber Range",
+  "allowed_domains": ["test.local"],
+  "allowed_cidrs": ["10.0.0.0/24"],
+  "allowed_ports": [80, 443],
+  "max_depth": 2,
+  "created_by": "sec-admin",
+  "expires_at": "2026-10-02T18:00:00Z",
+  "scope_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "unauthorized_injection_field": "exploit_payload"
+}

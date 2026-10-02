@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/protocol-envelope.json",
+  "title": "ProtocolEnvelope",
+  "description": "Standardized wire message envelope with version negotiation and message routing metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "message_id",
+    "timestamp",
+    "sender",
+    "recipient",
+    "message_type",
+    "payload"
+  ],
+  "properties": {
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "maxLength": 10
+    },
+    "message_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "sender": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "recipient": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "negotiate_request",
+        "negotiate_response",
+        "action_request",
+        "decision",
+        "approval",
+        "agent_run",
+        "verification_result",
+        "evidence",
+        "audit_event",
+        "checkpoint",
+        "finding",
+        "protocol_event",
+        "protocol_error"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "negotiation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "client_supported_versions",
+        "status"
+      ],
+      "properties": {
+        "client_supported_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "minItems": 1,
+          "maxItems": 10
+        },
+        "selected_version": {
+          "type": "string",
+          "maxLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "REQUEST",
+            "ACCEPTED",
+            "REJECTED"
+          ]
+        }
+      }
+    }
+  }
+}

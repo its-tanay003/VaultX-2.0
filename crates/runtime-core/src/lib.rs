@@ -6,6 +6,9 @@
 #![deny(unsafe_code)]
 #![warn(missing_docs)]
 
+/// Protocol definitions and version negotiation for VaultX 2.0.
+pub mod protocol;
+
 /// Runtime lifecycle state.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RuntimeState {

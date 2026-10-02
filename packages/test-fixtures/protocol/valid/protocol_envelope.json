@@ -1,0 +1,27 @@
+{
+  "protocol_version": "1.0.0",
+  "message_id": "11111111-1111-1111-1111-111111111111",
+  "timestamp": "2026-10-02T16:00:00Z",
+  "sender": "agent-orchestrator",
+  "recipient": "runtime-core",
+  "message_type": "action_request",
+  "payload": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "run_id": "33333333-3333-3333-3333-333333333333",
+    "project_id": "44444444-4444-4444-4444-444444444444",
+    "capability": "project.read",
+    "tool_name": "file_reader",
+    "params": {
+      "path": "README.md"
+    },
+    "action_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "requested_at": "2026-10-02T16:00:00Z"
+  },
+  "negotiation": {
+    "client_supported_versions": [
+      "1.0.0"
+    ],
+    "selected_version": "1.0.0",
+    "status": "ACCEPTED"
+  }
+}

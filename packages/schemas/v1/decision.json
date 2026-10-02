@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/decision.json",
+  "title": "Decision",
+  "description": "Deterministic policy evaluation outcome for an ActionRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "action_id",
+    "effect",
+    "policy_id",
+    "reasons",
+    "constraints",
+    "evaluated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "action_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "effect": {
+      "type": "string",
+      "enum": [
+        "ALLOW",
+        "DENY",
+        "APPROVAL_REQUIRED"
+      ]
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      },
+      "maxItems": 50
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 1000
+      }
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    }
+  }
+}

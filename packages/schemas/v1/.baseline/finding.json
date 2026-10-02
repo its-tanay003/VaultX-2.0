@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/finding.json",
+  "title": "Finding",
+  "description": "Structured cybersecurity or code quality finding bound to cryptographic evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "run_id",
+    "title",
+    "severity",
+    "target",
+    "description",
+    "evidence_id",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "CRITICAL",
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "INFO"
+      ]
+    },
+    "cwe": {
+      "type": "string",
+      "maxLength": 20,
+      "pattern": "^CWE-\\d+$"
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "evidence_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "remediation": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    }
+  }
+}

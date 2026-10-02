@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/action.json",
+  "title": "ActionRequest",
+  "description": "Privileged operation requested by untrusted agent runtime, evaluated by policy engine",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "run_id",
+    "project_id",
+    "capability",
+    "tool_name",
+    "params",
+    "action_hash",
+    "requested_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "project_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "capability": {
+      "$ref": "capability.json"
+    },
+    "tool_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "target": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "security_scope_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "action_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    }
+  }
+}

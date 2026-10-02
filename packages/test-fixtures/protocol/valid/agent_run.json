@@ -1,0 +1,10 @@
+{
+  "id": "11111111-1111-1111-1111-111111111111",
+  "project_id": "22222222-2222-2222-2222-222222222222",
+  "task_id": "33333333-3333-3333-3333-333333333333",
+  "status": "RUNNING",
+  "goal": "Implement secure input validation for API endpoint",
+  "created_at": "2026-10-02T16:00:00Z",
+  "updated_at": "2026-10-02T16:05:00Z",
+  "checkpoint_id": "44444444-4444-4444-4444-444444444444"
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/events.json",
+  "title": "ProtocolEvent",
+  "description": "Lifecycle event telemetry stream emitted across runtime, agent, and user boundaries",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "run_id",
+    "timestamp",
+    "type",
+    "data"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "RunCreated",
+        "PlanCreated",
+        "ApprovalRequested",
+        "ApprovalGranted",
+        "ToolStarted",
+        "ToolOutput",
+        "PolicyDenied",
+        "SandboxStarted",
+        "VerificationStarted",
+        "VerificationPassed",
+        "VerificationFailed",
+        "EvidenceCreated",
+        "RunCompleted",
+        "RunRolledBack"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

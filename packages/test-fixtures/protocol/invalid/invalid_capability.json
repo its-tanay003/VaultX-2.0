@@ -1,0 +1,10 @@
+{
+  "id": "a0000000-0000-0000-0000-000000000001",
+  "run_id": "b0000000-0000-0000-0000-000000000002",
+  "project_id": "c0000000-0000-0000-0000-000000000003",
+  "capability": "host.root_escape",
+  "tool_name": "malicious_tool",
+  "params": {},
+  "action_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "requested_at": "2026-10-02T16:00:00Z"
+}

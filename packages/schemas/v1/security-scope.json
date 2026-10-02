@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/security-scope.json",
+  "title": "SecurityScope",
+  "description": "Cryptographically verifiable scope envelope for authorized cybersecurity lab and scan operations",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "allowed_domains",
+    "allowed_cidrs",
+    "allowed_ports",
+    "max_depth",
+    "created_by",
+    "expires_at",
+    "scope_hash"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "allowed_domains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 253
+      },
+      "maxItems": 100
+    },
+    "allowed_cidrs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 49
+      },
+      "maxItems": 50
+    },
+    "allowed_ports": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 65535
+      },
+      "maxItems": 100
+    },
+    "max_depth": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "scope_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

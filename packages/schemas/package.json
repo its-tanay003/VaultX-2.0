@@ -6,6 +6,17 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
-    "lint": "eslint src"
+    "lint": "eslint src scripts",
+    "generate:ts": "node scripts/generate-ts.ts",
+    "codegen:check": "node scripts/generate-ts.ts --check",
+    "check-breaking": "node scripts/check-breaking.ts",
+    "test": "node --test tests/check-breaking.test.ts"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "json-schema-to-typescript": "^16.0.0",
+    "tsx": "^4.23.15",
+    "vitest": "^5.0.3"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "id": "11111111-1111-1111-1111-111111111111",
+  "action_id": "22222222-2222-2222-2222-222222222222",
+  "action_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "decision": "APPROVED",
+  "approver_id": "sec-admin-01",
+  "approver_role": "Security Admin",
+  "reason": "Authorized penetration test against staging lab target",
+  "timestamp": "2026-10-02T16:01:00Z",
+  "signature": "3045022100e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855022026e6f1a8c08efca8892eb5f5ff72d0012e1ffb1bc13e2bfad4ff6603a1188358"
+}

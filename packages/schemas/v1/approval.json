@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/approval.json",
+  "title": "Approval",
+  "description": "Cryptographically signed human or authority authorization bound to an action hash",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "action_id",
+    "action_hash",
+    "decision",
+    "approver_id",
+    "approver_role",
+    "timestamp",
+    "signature"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "action_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "action_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "REJECTED"
+      ]
+    },
+    "approver_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "approver_role": {
+      "type": "string",
+      "enum": [
+        "Owner",
+        "Admin",
+        "Security Admin",
+        "Developer",
+        "Security Analyst",
+        "Researcher",
+        "Student",
+        "Viewer",
+        "Auditor"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 512,
+      "pattern": "^[a-f0-9]+$"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/error.json",
+  "title": "ProtocolError",
+  "description": "Structured machine-readable error format across VaultX 2.0 user and IPC boundaries",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "code",
+    "message"
+  ],
+  "properties": {
+    "code": {
+      "type": "string",
+      "enum": [
+        "POLICY_DENIED",
+        "SCOPE_DENIED",
+        "SANDBOX_UNAVAILABLE",
+        "TOOL_NOT_FOUND",
+        "APPROVAL_REQUIRED",
+        "VERIFICATION_FAILED",
+        "RESOURCE_LIMIT",
+        "PROTOCOL_VIOLATION",
+        "INTERNAL_ERROR"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "action_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 1000
+      }
+    },
+    "remediation": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  }
+}

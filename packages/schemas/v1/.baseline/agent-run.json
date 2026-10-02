@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/agent-run.json",
+  "title": "AgentRun",
+  "description": "Lifecycle state and metadata for an agent execution task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "project_id",
+    "task_id",
+    "status",
+    "goal",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "project_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "task_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "INITIALIZING",
+        "RUNNING",
+        "PAUSED_FOR_APPROVAL",
+        "COMPLETED",
+        "FAILED",
+        "ROLLED_BACK",
+        "CANCELLED"
+      ]
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    }
+  }
+}

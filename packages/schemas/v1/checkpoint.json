@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/checkpoint.json",
+  "title": "Checkpoint",
+  "description": "Deterministic repository state checkpoint enabling automated rollback",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "project_id",
+    "run_id",
+    "git_commit_sha",
+    "rollback_point",
+    "description",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "project_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "git_commit_sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "rollback_point": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 35
+    }
+  }
+}

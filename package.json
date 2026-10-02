@@ -6,7 +6,10 @@
   "scripts": {
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "generate:ts": "pnpm --filter @valutx/schemas run generate:ts",
+    "codegen:check": "pnpm --filter @valutx/schemas run codegen:check",
+    "schema:check-breaking": "pnpm --filter @valutx/schemas run check-breaking"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",

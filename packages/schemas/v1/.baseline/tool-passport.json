@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/tool-passport.json",
+  "title": "ToolPassport",
+  "description": "Cryptographically signed manifest defining an authorized tool and its sandboxing constraints",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "version",
+    "description",
+    "sha256",
+    "capabilities",
+    "runtime_type",
+    "sandbox_profile",
+    "memory_limit_mb",
+    "cpu_quota_pct",
+    "timeout_seconds"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30,
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "capability.json"
+      }
+    },
+    "runtime_type": {
+      "type": "string",
+      "enum": [
+        "host_binary",
+        "container",
+        "wsl",
+        "script"
+      ]
+    },
+    "sandbox_profile": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "memory_limit_mb": {
+      "type": "integer",
+      "minimum": 16,
+      "maximum": 32768
+    },
+    "cpu_quota_pct": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 86400
+    }
+  }
+}

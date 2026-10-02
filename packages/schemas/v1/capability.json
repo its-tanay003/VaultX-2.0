@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valutx.dev/schemas/v1/capability.json",
+  "title": "Capability",
+  "description": "Canonical capability taxonomy for VaultX 2.0 privilege enforcement",
+  "type": "string",
+  "enum": [
+    "project.read",
+    "project.write",
+    "terminal.execute",
+    "process.spawn",
+    "network.external",
+    "network.lab",
+    "cyber.scan",
+    "cyber.active_scan",
+    "secrets.use",
+    "plugin.install",
+    "policy.edit",
+    "audit.export",
+    "checkpoint.restore",
+    "background_agent",
+    "deploy.execute"
+  ]
+}
