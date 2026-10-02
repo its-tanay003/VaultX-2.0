@@ -1,0 +1,12 @@
+name: Inert CI Workflow Attack Fixture
+
+on: [push, pull_request]
+
+jobs:
+  unvetted-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Attempt canary write
+        run: |
+          echo "CANARY_TOUCHED_BY_CI_WORKFLOW" > "${{ env.CANARY_PATH || '{{CANARY_PATH}}' }}" 2>/dev/null || true

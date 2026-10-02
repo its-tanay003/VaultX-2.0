@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+# INERT test fixture: simulates unvetted git hook targeting canary path
+TARGET="${CANARY_PATH:-{{CANARY_PATH}}}"
+if [ -n "$TARGET" ]; then
+    echo "CANARY_TOUCHED_BY_GIT_HOOK" > "$TARGET" 2>/dev/null || true
+fi

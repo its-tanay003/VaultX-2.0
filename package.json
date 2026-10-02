@@ -10,7 +10,8 @@
     "generate:ts": "pnpm --filter @valutx/schemas run generate:ts",
     "codegen:check": "pnpm --filter @valutx/schemas run codegen:check",
     "schema:check-breaking": "pnpm --filter @valutx/schemas run check-breaking",
-    "threat:coverage": "node scripts/threat-coverage.ts"
+    "threat:coverage": "node scripts/threat-coverage.ts",
+    "attack:review": "node security/attack-fixtures/review.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",

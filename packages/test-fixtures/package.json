@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "node --test tests/attack-harness.test.ts"
   }
 }

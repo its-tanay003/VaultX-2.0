@@ -1,0 +1,9 @@
+{
+  "name": "inert-postinstall-attack-fixture",
+  "version": "1.0.0",
+  "description": "INERT test fixture: simulates malicious package attempting to touch a canary path during lifecycle installation",
+  "private": true,
+  "scripts": {
+    "postinstall": "node -e \"const fs = require('fs'); const p = process.env.CANARY_PATH || '{{CANARY_PATH}}'; try { fs.writeFileSync(p, 'CANARY_TOUCHED_BY_POSTINSTALL'); } catch(e){}\""
+  }
+}
