@@ -1,0 +1,54 @@
+{
+  "system": "VALUTX 2.0",
+  "spec_version": "0.1",
+  "principles": [
+    "runtime_is_authority",
+    "least_privilege",
+    "local_first",
+    "sandboxed_execution",
+    "explicit_security_scope",
+    "verification_before_completion",
+    "reversible_changes",
+    "auditable_evidence"
+  ],
+  "components": [
+    "desktop",
+    "cli",
+    "runtime",
+    "policy_engine",
+    "agent_orchestrator",
+    "context_engine",
+    "model_router",
+    "tool_gateway",
+    "sandbox",
+    "process_supervisor",
+    "secret_broker",
+    "verification",
+    "evidence",
+    "audit",
+    "tool_registry",
+    "cyber_range",
+    "cloud_control_plane"
+  ],
+  "risk_classes": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5"
+  ],
+  "initial_roles": [
+    "Owner",
+    "Admin",
+    "Security Admin",
+    "Developer",
+    "Security Analyst",
+    "Researcher",
+    "Student",
+    "Viewer",
+    "Auditor"
+  ],
+  "api_version": "v1",
+  "roadmap_sprints": 20
+}
