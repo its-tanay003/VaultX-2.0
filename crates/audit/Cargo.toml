@@ -1,0 +1,9 @@
+[package]
+name = "valutx-audit"
+version = "0.1.0"
+edition = "2021"
+authors = ["VaultX Team"]
+license = "MIT OR Apache-2.0"
+description = "Server-side hash-chained tamper-evident audit logging for VaultX 2.0"
+
+[dependencies]

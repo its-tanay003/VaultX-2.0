@@ -1,0 +1,6 @@
+{
+  "profile": "default-restricted",
+  "max_memory_mb": 512,
+  "max_cpu_percent": 50,
+  "allow_network": false
+}

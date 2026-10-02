@@ -1,0 +1,11 @@
+title = "VaultX Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key Detection"
+regex = '''(?i)(api[_-]?key|secret|token)[\s]*[:=][\s]*['"][0-9a-zA-Z]{16,}['"]'''
+entropy = 3.5
+keywords = ["key", "secret", "token"]

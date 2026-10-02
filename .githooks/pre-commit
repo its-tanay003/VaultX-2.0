@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+echo "Running VaultX pre-commit checks..."
+
+# Run TypeScript lint across workspace
+pnpm -r lint
+
+# Run Gitleaks secret detection
+if command -v gitleaks >/dev/null 2>&1; then
+    gitleaks detect --source . --verbose --no-git
+elif [ -f "C:/Users/hp/.cargo/bin/gitleaks.exe" ]; then
+    "C:/Users/hp/.cargo/bin/gitleaks.exe" detect --source . --verbose --no-git
+fi
+
+echo "VaultX pre-commit verification passed."

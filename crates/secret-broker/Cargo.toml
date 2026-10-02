@@ -1,0 +1,9 @@
+[package]
+name = "valutx-secret-broker"
+version = "0.1.0"
+edition = "2021"
+authors = ["VaultX Team"]
+license = "MIT OR Apache-2.0"
+description = "Ephemeral secret reference brokering and redaction engine for VaultX 2.0"
+
+[dependencies]

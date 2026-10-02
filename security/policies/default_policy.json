@@ -1,0 +1,17 @@
+{
+  "$schema": "https://vaultx.dev/schemas/policy.v1.json",
+  "name": "default-zero-trust",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "capability": "project.read",
+      "risk": "L0",
+      "action": "allow"
+    },
+    {
+      "capability": "terminal.execute",
+      "risk": "L2",
+      "action": "sandbox"
+    }
+  ]
+}
