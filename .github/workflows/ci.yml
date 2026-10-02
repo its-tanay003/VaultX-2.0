@@ -1,0 +1,142 @@
+name: CI - Spec §27 Verification Gates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Non-negotiable invariant: least-privilege token permissions (zero write access)
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  ts-quality-and-schemas:
+    name: TypeScript, Schemas & Security Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        # pnpm/action-setup v4.0.0
+        uses: pnpm/action-setup@a3252b78c470c02df07e9d792dbd422789461f49
+        with:
+          version: 10.0.0
+
+      - name: Setup Node.js 22
+        # actions/setup-node v4.0.2
+        uses: actions/setup-node@1e60f620b7ed1b0ad38b007393290720337e0073
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Gate 1 - Gitleaks Secret Scanning
+        # gitleaks/gitleaks-action v2.3.9
+        uses: gitleaks/gitleaks-action@b706c64bc60285a8501ae7f4e9fa8211db492161
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Gate 2 - Threat Model CI Coverage
+        run: pnpm run threat:coverage
+
+      - name: Gate 3 - Protocol Codegen Freshness
+        run: pnpm run codegen:check
+
+      - name: Gate 4 - Protocol Schema Breaking Change Compatibility
+        run: pnpm run schema:check-breaking
+
+      - name: Gate 5 - TypeScript Lint & Format
+        run: pnpm -r lint
+
+      - name: Gate 6 - TypeScript Build & Typecheck
+        run: pnpm -r build
+
+      - name: Gate 7 - TypeScript Unit & Integration Tests
+        run: pnpm -r test
+
+      - name: Gate 8 - Attack Fixtures Catalog & Canary Evaluation
+        run: pnpm run attack:review
+
+      - name: Gate 9 - pnpm Dependency Vulnerability Audit
+        run: pnpm audit --audit-level=high
+
+      # --- FUTURE GATES (PLACEHOLDERS) ---
+      - name: "PLACEHOLDER: Clean-Install Verification (Package Bundle)"
+        if: false # TODO: @tanay Phase 3 - Clean install from packaged npm tarball and verify zero ambient dependencies
+        run: |
+          echo "Verifying clean tarball installation..."
+          pnpm pack && npm install -g ./valutx-*.tgz
+
+  rust-and-security:
+    name: Rust Runtime & Security Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Rust Toolchain
+        # dtolnay/rust-toolchain stable
+        uses: dtolnay/rust-toolchain@7b7640457d930a38d3b36128028a422f7416744b
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+
+      - name: Rust Cache
+        # swatinem/rust-cache v2.7.5
+        uses: swatinem/rust-cache@82a92a6e8fbeee08c6c4da52719b497042c93181
+
+      - name: Gate 10 - Rust Formatting Check
+        run: cargo fmt --all -- --check
+
+      - name: Gate 11 - Clippy Lint (Deny Warnings)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Gate 12 - Rust Unit & Security Tests
+        run: cargo test --workspace
+
+      - name: Gate 13 - Architecture Invariant (No Process Spawning Outside Supervisor)
+        run: cargo test --test no_external_process_spawning
+
+      - name: Gate 14 - Cargo Deny Dependency Governance
+        # EmbarkStudios/cargo-deny-action v2.0.8
+        uses: EmbarkStudios/cargo-deny-action@837326a0907409cc3e839e5e771e89dfc5f49e49
+        with:
+          command: check
+
+      - name: Gate 15 - Cargo Audit Advisory Check
+        # rustsec/audit-check v2.0.0
+        uses: rustsec/audit-check@231362e92ec4eb62323e01bc6c1e309fe6948b8b
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- FUTURE GATES (PLACEHOLDERS) ---
+      - name: "PLACEHOLDER: Sandbox Conformance (Bubblewrap/Landlock/WSL2)"
+        if: false # TODO: @tanay Phase 1 - Run sandbox escape and resource confinement test suite
+        run: |
+          echo "Running sandbox conformance suite..."
+          cargo test -p valutx_sandbox --test conformance
+
+      - name: "PLACEHOLDER: Adversarial Attack Fixtures (Runtime Verification)"
+        if: false # TODO: @tanay Phase 1 - Execute security/attack-fixtures through live runtime supervisor
+        run: |
+          echo "Executing adversarial attack fixtures..."
+          pnpm run attack:review
+
+      - name: "PLACEHOLDER: Signed Artifacts & Provenance Verification"
+        if: false # TODO: @tanay Phase 3 - Verify Sigstore / Cosign cryptographic provenance attestations
+        run: |
+          echo "Verifying artifact signatures..."
+          cosign verify-blob ...
