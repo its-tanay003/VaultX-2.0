@@ -5,6 +5,13 @@ echo "Running VaultX pre-commit checks..."
 # Run TypeScript lint across workspace
 pnpm -r lint
 
+# Run threat model coverage check
+pnpm run threat:coverage
+
+# Verify protocol codegen and schema consistency
+pnpm run codegen:check
+pnpm run schema:check-breaking
+
 # Run Gitleaks secret detection
 if command -v gitleaks >/dev/null 2>&1; then
     gitleaks detect --source . --verbose --no-git

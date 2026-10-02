@@ -10,7 +10,7 @@
     "generate:ts": "node scripts/generate-ts.ts",
     "codegen:check": "node scripts/generate-ts.ts --check",
     "check-breaking": "node scripts/check-breaking.ts",
-    "test": "node --test tests/check-breaking.test.ts"
+    "test": "node --test tests/check-breaking.test.ts tests/threat-coverage.test.ts"
   },
   "devDependencies": {
     "ajv": "^8.20.0",

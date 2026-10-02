@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# POSIX shell wrapper for threat model coverage verification
+DIR="$(cd "$(dirname "$0")" && pwd)"
+exec node "$DIR/threat-coverage.ts" "$@"

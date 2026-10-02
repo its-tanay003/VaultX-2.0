@@ -9,12 +9,14 @@
     "test": "pnpm -r test",
     "generate:ts": "pnpm --filter @valutx/schemas run generate:ts",
     "codegen:check": "pnpm --filter @valutx/schemas run codegen:check",
-    "schema:check-breaking": "pnpm --filter @valutx/schemas run check-breaking"
+    "schema:check-breaking": "pnpm --filter @valutx/schemas run check-breaking",
+    "threat:coverage": "node scripts/threat-coverage.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",
     "eslint": "^9.20.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.71.0"
+    "typescript-eslint": "^8.71.0",
+    "yaml": "^2.9.1"
   }
 }
