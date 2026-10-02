@@ -1,0 +1,58 @@
+namespace ValutX {
+    entity User in [Role];
+    entity Role;
+    entity Project;
+    entity Tool;
+    entity Path;
+    entity NetworkTarget;
+
+    action "project.read" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "project.write" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "terminal.execute" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "network.external" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "cyber.active_scan" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "secrets.use" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "plugin.install" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "policy.edit" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "audit.export" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+
+    action "background_agent" appliesTo {
+        principalTypes: [User, Role],
+        resourceTypes: [Project, Path, Tool, NetworkTarget]
+    };
+}
