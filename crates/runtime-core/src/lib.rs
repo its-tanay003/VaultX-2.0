@@ -9,6 +9,12 @@
 /// Protocol definitions and version negotiation for VaultX 2.0.
 pub mod protocol;
 
+/// Local authenticated IPC daemon subsystem.
+pub mod ipc;
+
+/// System diagnostic and host readiness subsystem.
+pub mod doctor;
+
 /// Runtime lifecycle state.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RuntimeState {
