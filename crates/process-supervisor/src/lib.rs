@@ -2,11 +2,26 @@
 //!
 //! Sole authorized gateway for OS process execution.
 //! No other component in the monorepo is permitted to spawn processes directly.
+//! All process creation passes through the supervisor with Job Object / process group
+//! containment and bounded resource governance.
 
-#![deny(unsafe_code)]
+// Process supervisor encapsulates audited low-level OS process management and Job Object / process group FFI.
+#![allow(unsafe_code)]
 #![warn(missing_docs)]
 
-/// Process execution options.
+pub mod error;
+pub mod executor;
+pub mod models;
+pub mod platform;
+
+pub use error::SupervisorError;
+pub use executor::{ExecutionHandle, ProcessSupervisor};
+pub use models::{
+    ExecutionConstraints, ExecutionRequest, ExecutionResult, ProcessEvent, ProcessExitStatus,
+    ResourceUsage, SandboxHandle, TerminationReason,
+};
+
+/// Backward-compatible process execution options for legacy callers.
 #[derive(Debug, Clone)]
 pub struct SpawnOptions {
     /// Target binary path.
@@ -18,9 +33,6 @@ pub struct SpawnOptions {
     /// Execution timeout in milliseconds.
     pub timeout_ms: u64,
 }
-
-/// Supervised process instance.
-pub struct ProcessSupervisor;
 
 impl ProcessSupervisor {
     /// Validates execution request and ensures program is tracked.
