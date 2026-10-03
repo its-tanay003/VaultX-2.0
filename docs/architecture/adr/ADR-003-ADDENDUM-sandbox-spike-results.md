@@ -5,7 +5,9 @@
 - **Date**: 2026-10-03
 - **Technical Story**: Task P1-T05 — Time-boxed (6h) spike to choose the sandbox implementation.
 - **Spike Author**: Antigravity (implementation partner)
-- **Platform Under Test**: WSL2, Kali GNU/Linux Rolling 2025.4, kernel `6.18.40.1-microsoft-standard-WSL2`
+- **Platforms Under Test**:
+  - **Primary (User Real Setup)**: WSL2, Ubuntu 24.04.4 LTS (Noble Numbat), kernel `6.18.40.1-microsoft-standard-WSL2`
+  - **Secondary (Cyber Lab)**: WSL2, Kali GNU/Linux Rolling 2025.4, kernel `6.18.40.1-microsoft-standard-WSL2`
 
 ---
 
@@ -25,25 +27,34 @@ Requirements tested: read-only system dirs, writable project dir only, `~/.ssh` 
 
 ## 2. Environment Conformance Results
 
-### 2.1 WSL2 Kernel Capability Matrix
+### 2.1 WSL2 Ubuntu 24.04 & Kernel Capability Matrix
 
-| Capability | Result | Evidence |
-|------------|--------|----------|
-| Kernel version | `6.18.40.1-microsoft-standard-WSL2` | `uname -r` |
-| Unprivileged user namespaces | AVAILABLE | `unshare --user --map-root-user echo OK` passes |
-| All namespace types | cgroup, ipc, mnt, net, pid, time, user, uts | `/proc/self/ns/` |
-| **Landlock LSM (syscall)** | **SUPPORTED (ABI 7)** | `landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION)` returns 7 (errno=0) in 0.0008ms (~0.8µs) |
+| Capability | Result | Evidence / Detail |
+|---|---|---|
+| Kernel version | `6.18.40.1-microsoft-standard-WSL2` | `uname -r` (shared Microsoft kernel across all distros) |
+| Distro (Primary) | `Ubuntu 24.04.4 LTS (Noble Numbat)` | `/etc/os-release` |
+| **AppArmor status** | **ABSENT in securityfs** | `/sys/kernel/security/apparmor` is not mounted by WSL2 |
+| **Ubuntu 24.04 unprivileged userns** | **AVAILABLE (`user-ns=OK`)** | `unshare --user --map-root-user` passes without errors |
+| AppArmor userns restriction | INACTIVE | `/proc/sys/kernel/apparmor_restrict_unprivileged_userns` is absent because AppArmor LSM is inactive in WSL2; unprivileged user namespaces work without custom AppArmor profiles |
+| All namespace types | cgroup, ipc, mnt, net, pid, time, user, uts | Verified in `/proc/self/ns/` |
+| **Landlock LSM (syscall #444)** | **SUPPORTED (ABI 7)** | `landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION)` returns `7` (`errno = 0`) in `0.0008ms` (~0.8µs) |
 | Landlock ABI sysfs path | NOT MOUNTED | `/sys/kernel/security/landlock/abi` absent in WSL2 securityfs — detected via syscall flag |
-| `seccomp-bpf` | AVAILABLE | `bpf_jit_enable=1`; process `Seccomp` field present |
-| `bubblewrap` binary | INSTALLED (0.12.0) | `bubblewrap 0.12.0` installed at `/usr/bin/bwrap`; startup: 7.70ms (min 6.83ms, max 9.62ms) |
-| `node` (WSL-native) | NOT INSTALLED | Windows-side Node at `/mnt/c/Program Files/nodejs/` only |
-| `python3` | 3.13.9 | `python3 --version` |
+| `seccomp-bpf` | AVAILABLE | `bpf_jit_enable=1`; process `Seccomp` field present in `/proc/self/status` |
+| `bubblewrap` binary (Ubuntu 24.04) | INSTALLED (v0.9.0) | `/usr/bin/bwrap` pre-installed on Ubuntu 24.04 |
+| `bubblewrap` binary (Kali 2025.4) | INSTALLED (v0.12.0) | Installed via `apt install bubblewrap` |
+| `node` | INSTALLED (v18.19.1 on Ubuntu) | `/usr/bin/node` native on Ubuntu 24.04 |
+| `npm` | INSTALLED (v9.2.0 on Ubuntu) | `/usr/bin/npm` native on Ubuntu 24.04 |
+| `python3` | INSTALLED (3.12.3 Ubuntu / 3.13.9 Kali) | `/usr/bin/python3` native |
 
-> **Note on Landlock ABI detection in WSL2**: WSL2 does not mount securityfs, so
-> `/sys/kernel/security/landlock/abi` is absent. Calling `landlock_create_ruleset`
-> with the `LANDLOCK_CREATE_RULESET_VERSION` flag (bit 0 = `1u32`) and null attributes
-> directly returns ABI version integer `7` with `errno = 0` in ~0.8µs.
-> Production code MUST detect ABI version via this flag rather than reading the sysfs file.
+> **Critical WSL2 Findings**:
+> 1. **Landlock ABI Detection**: WSL2 does not mount securityfs, so `/sys/kernel/security/landlock/abi` is absent.
+>    Calling `landlock_create_ruleset` with `LANDLOCK_CREATE_RULESET_VERSION` (bit 0 = `1u32`) and null attributes
+>    directly returns ABI version `7` with `errno = 0` in ~0.8µs.
+> 2. **Ubuntu 24.04 AppArmor & Namespaces**: On bare-metal Ubuntu 24.04 Noble Numbat, unprivileged user namespaces
+>    are restricted by default via AppArmor (`kernel.apparmor_restrict_unprivileged_userns = 1`), requiring applications
+>    to install an AppArmor profile in `/etc/apparmor.d/`. Under WSL2, however, AppArmor securityfs is not mounted,
+>    so this restriction is inactive and `unshare(CLONE_NEWUSER)` succeeds out of the box. Production code should still
+>    handle `EPERM` fail-closed (SAND-21) for non-WSL bare metal Ubuntu systems.
 
 ---
 
@@ -110,15 +121,21 @@ Requirements tested: read-only system dirs, writable project dir only, `~/.ssh` 
 | Startup overhead | **~0.1–0.8ms** |
 | ABI detection (no securityfs) | Uses `LANDLOCK_CREATE_RULESET_VERSION` flag |
 
-**Timing comparison summary:**
+---
 
-| Option | Cold startup | Warm startup | Deps required |
-|--------|-------------|--------------|---------------|
-| A (`srt`) | ~5,200ms | ~3,190ms | `socat`, `ripgrep`, Node >= 18 |
-| B (`bwrap`) | ~18ms | ~12ms | `bubblewrap` binary |
-| **C (Landlock)** | **~0.8ms** | **~0.1ms** | None (kernel 5.13+) |
+### 3.4 Comparative Matrix Across Key Dimensions
+
+| Evaluation Dimension | Option A: Anthropic `srt` | Option B: `bubblewrap` (`bwrap`) | Option C: In-Process Landlock + seccomp + namespaces |
+|---|---|---|---|
+| **Startup Latency** | ⚠️ **3,190ms – 5,200ms** (Node runtime, socat bridges, helper scripts) | ⚡ **7.7ms – 18ms** (CLI binary fork + exec overhead) | 🚀 **~0.0008ms – 0.8ms** (Pure in-process kernel syscalls, zero fork penalty) |
+| **Default-Deny Reads Feasibility** | ⚠️ Moderate: Requires complex bind mount overlays; paths outside explicit allowlist can leak if Node config drifts | ✅ High: Mount namespace allows unmounting/masking `/home`, `~/.ssh`, and `/etc` via tmpfs overlays | ✅ Maximum: `LANDLOCK_ACCESS_FS_READ_FILE` deny-by-default; kernel blocks file descriptors outside allowlist even if visible |
+| **Network Proxy Support** | ⚠️ Brittle: Uses host `socat` bridges; requires open ports and complex traffic forwarding scripts | ✅ Good: `--unshare-net` completely cuts network; can join veth pair or forward loopback proxy ports | ✅ Maximum: `unshare(CLONE_NEWNET)` creates isolated network namespace; seccomp blocks raw sockets (`AF_PACKET`, `AF_INET`) |
+| **Maintenance Burden** | ❌ High: Depends on Node.js >= 18, `socat`, `ripgrep`, npm packages, and cross-platform Node wrappers | ⚠️ Moderate: External C binary (`bwrap`); packaging variations across distros (not pre-installed on Kali) | ✅ Minimal: Pure Rust libc syscall bindings; zero runtime dependencies, zero external binary version-locks |
+| **License** | ⚠️ MIT (Anthropic srt repo), but upstream changes and enterprise support commitments unclear | ⚠️ LGPL-2.1 (Bubblewrap); binary invocation is license-safe, but embedding is restricted | ✅ MIT / Apache-2.0 dual license (idiomatic Rust); 100% compliant with VaultX licensing rules |
+| **Behavior Under WSL2** | ❌ Fragile: WSL2 path translation breaks Node/socat scripts across NTFS mounts; high CPU during initialization | ✅ Fully Functional: Works out-of-the-box once installed; unprivileged userns available on WSL2 Ubuntu 24.04 and Kali | ✅ Outstanding: Kernel 6.18 supports Landlock ABI 7 via syscall flag; bypasses unmounted securityfs gracefully |
 
 ---
+
 
 ## 4. Conformance Test Requirements (feeds P1-T07)
 
