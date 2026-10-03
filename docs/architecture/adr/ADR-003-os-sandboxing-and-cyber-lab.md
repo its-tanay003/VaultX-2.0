@@ -1,10 +1,15 @@
 # ADR-003: Multi-Platform OS Sandboxing Strategy and Cyber Lab Isolation
 
-- **Status**: Proposed
+- **Status**: Accepted (refined by [ADR-003-ADDENDUM-sandbox-spike-results.md](ADR-003-ADDENDUM-sandbox-spike-results.md) — 2026-10-03)
 - **Deciders**: Product Owner, Security & Architecture Team
 - **Date**: 2026-10-02
-- **Technical Story**: Task P0-T03 — Write and ratify ADR-002 to ADR-009.
+- **Technical Story**: Task P0-T03 — Write and ratify ADR-002 to ADR-009. Spike: P1-T05.
 - **Governs**: `crates/sandbox`, `crates/process-supervisor`, `security/sandbox-profiles`.
+
+> **Primary sandbox mechanism revised by P1-T05 spike**: In-process Landlock LSM +
+> seccomp-bpf (via Rust FFI) replaces `bwrap` as primary on Linux/WSL2. `bwrap` demoted
+> to mount-namespace fallback. Startup latency target: **< 2ms**. See addendum for
+> empirical data, 22 conformance tests (SAND-01..22), and Landlock ABI detection pattern.
 
 ---
 
